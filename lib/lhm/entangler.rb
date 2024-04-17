@@ -22,9 +22,9 @@ module Lhm
 
     def entangle
       [
-        create_delete_trigger,
-        create_insert_trigger,
-        create_update_trigger
+        # create_delete_trigger,
+        # create_insert_trigger,
+        # create_update_trigger
       ]
     end
 
@@ -78,15 +78,17 @@ module Lhm
     end
 
     def before
-      entangle.each do |stmt|
-        @connection.execute(tagged(stmt))
-      end
+      # Triggers already exist
+      # entangle.each do |stmt|
+      #   @connection.execute(tagged(stmt))
+      # end
     end
 
     def after
-      untangle.each do |stmt|
-        @connection.execute(tagged(stmt))
-      end
+      # We don't want to remove the triggers until we manually switch over
+      # untangle.each do |stmt|
+      #   @connection.execute(tagged(stmt))
+      # end
     end
 
     def revert

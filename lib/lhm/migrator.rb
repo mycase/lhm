@@ -193,13 +193,15 @@ module Lhm
 
       dest = @origin.destination_name
 
-      if @connection.table_exists?(dest)
-        error("#{ dest } should not exist; not cleaned up from previous run?")
-      end
+      # We want to resume so we skip this validation
+      # if @connection.table_exists?(dest)
+      #   error("#{ dest } should not exist; not cleaned up from previous run?")
+      # end
     end
 
     def execute
-      destination_create
+      # The table is already created
+      # destination_create
       @statements.each do |stmt|
         @connection.execute(tagged(stmt))
       end

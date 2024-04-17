@@ -59,13 +59,11 @@ module Lhm
     end
 
     def select_start
-      start = connection.select_value("select min(id) from `#{ origin_name }`")
-      start ? start.to_i : nil
+      # Run ActiveRecord::Base.connection.execute('SELECT MAX(id) FROM table_name').to_a to get this value
     end
 
     def select_limit
-      limit = connection.select_value("select max(id) from `#{ origin_name }`")
-      limit ? limit.to_i : nil
+      2147483647
     end
 
     # XXX this is extremely brittle and doesn't work when filter contains more
