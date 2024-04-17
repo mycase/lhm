@@ -59,13 +59,16 @@ module Lhm
     end
 
     def select_start
-      start = connection.select_value("select min(id) from `#{ origin_name }`")
-      start ? start.to_i : nil
+      # This is the value of an ID less than where the migration was interrupted to
+      # make sure all records are backfilled into the lhm table.
+      43680001
     end
 
     def select_limit
-      limit = connection.select_value("select max(id) from `#{ origin_name }`")
-      limit ? limit.to_i : nil
+      # This was the max ID value in the original table after the migration was interrupted.
+      # We only need to backfill up to this point since there's an INSERT trigger that handles
+      # all new records inserted into the table.
+      56571218
     end
 
     # XXX this is extremely brittle and doesn't work when filter contains more
