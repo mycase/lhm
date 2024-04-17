@@ -43,12 +43,15 @@ module Lhm
       migration = @migrator.run
 
       Entangler.new(migration, @connection).run do
-        Chunker.new(migration, @connection, options).run
-        # if options[:atomic_switch]
-        #   AtomicSwitcher.new(migration, @connection).run
-        # else
-        #   LockedSwitcher.new(migration, @connection).run
-        # end
+        # Data is already copied, so we don't need to chunk it
+        # Chunker.new(migration, @connection, options).run
+
+        # Now we want to switch over to complete the migration
+        if options[:atomic_switch]
+          AtomicSwitcher.new(migration, @connection).run
+        else
+          LockedSwitcher.new(migration, @connection).run
+        end
       end
     end
 

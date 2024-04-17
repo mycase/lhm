@@ -85,10 +85,10 @@ module Lhm
     end
 
     def after
-      # We don't want to remove the triggers until we manually switch over
-      # untangle.each do |stmt|
-      #   @connection.execute(tagged(stmt))
-      # end
+      # Now we want to remove the triggers
+      untangle.each do |stmt|
+        @connection.execute(tagged(stmt))
+      end
     end
 
     def revert
